@@ -1,0 +1,14 @@
+Top Positive and Negative Correlations:
+
+WeightInKilograms <-> BMI: +0.859
+HeightInMeters <-> WeightInKilograms: +0.474
+HadHeartAttack <-> HadAngina: +0.444
+PhysicalHealthDays <-> DifficultyWalking: +0.433
+MentalHealthDays <-> HadDepressiveDisorder: +0.425
+DifficultyDressingBathing <-> DifficultyErrands: +0.420
+PhysicalActivities <-> DifficultyWalking: -0.279
+PhysicalHealthDays <-> PhysicalActivities: -0.240
+PhysicalActivities <-> DifficultyErrands: -0.187
+PhysicalActivities <-> DifficultyDressingBathing: -0.168
+DifficultyWalking <-> AlcoholDrinkers: -0.165
+PhysicalActivities <-> BMI: -0.156
