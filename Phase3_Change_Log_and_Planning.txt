@@ -1,0 +1,84 @@
+cleaning.py
+(Changes per professor's request)
+- "Your approach simply drops rows with missing values, which can unnecessarily reduce dataset size—especially problematic with large survey data. Basic imputation methods (e.g., mean, median, mode) should be considered instead."
+- "Additionally, the number of rows dropped and a summary of missingness are not reported; this diagnostic information is crucial and should be logged or printed."
+(Changes made)
+- Implemented median imputation for numeric columns.
+- Implemented mode imputation for categorical columns.
+- Dropped only remaining rows after imputation.
+- Printed missing values before and after cleaning.
+- Printed number of rows dropped.
+- Added df.copy() to avoid modifying the original dataframe (Note: not in original version).
+
+encode.py
+(Changes per professor's request)
+- "The column GenHlth appears in both the OneHotEncoder and LabelEncoder sections, depending on branching logic. This inconsistency can result in double encoding or logic errors."
+(Changes made)
+- Removed 'GenHlth' from OneHotEncoder logic.
+- Encoded 'GenHlth' only using LabelEncoder, respecting ordinal nature.
+
+normalization.py
+(Changes per professor's request)
+- "After encoding and normalization, the code does not check for issues like constant columns, multicollinearity, or NaN values introduced during transformation. It's important to include validation steps to ensure that the processed dataset is suitable for modeling."
+(Changes made)
+- Dropped constant columns with <=1 unique value before scaling.
+- Selected only numeric columns for MinMaxScaler to resolve runtime error (not professor feedback).
+- Recombined scaled numeric data with non-numeric columns after normalization.
+- Filled any NaNs introduced by scaling with 0.
+
+correlation.py
+(Changes per professor's request)
+- "Figure 2... does not appear to be produced by the submitted code... no evidence in the code of transformations that would expand this number prior to computing correlations."
+- "Without this clarity, the reliability and interpretability of the correlation analysis are in question."
+- "Incorporating class distribution plots, summary statistics, and basic feature analysis would have made this section more impactful."
+(Changes made)
+- Correlation now operates on processed data after encoding and normalization.
+- Heatmaps and top correlation infographics are saved for visual clarity.
+- Top correlated feature pairs are saved in a .txt summary.
+- Added class imbalance plot for binary target.
+- Added histograms for numeric feature distributions.
+
+main.py
+(Changes per professor's request)
+- "There is also a disconnect between the report's narrative and what is implemented in the code. Strengthening that alignment... will be critical for success in the next phase."
+(Changes made)
+- Saved pre-normalized datasets to allow EDA before scaling.
+- Saved post-normalized datasets with selected features.
+- Integrated updated preprocessing flow that matches the report.
+
+=================================================================
+PHASE 4 REQUIREMENTS
+=================================================================
+
+According to the project instructions, Phase 4 requires us to:
+"Implement and refine your solutions (extensive programming!). Conduct experiments to examine your solutions. Your initial code from the previous stage may not generate good solutions. In this stage, you can explore alternative approaches to write other code or improve your existing code to generate solutions with better performance."
+
+Required Tasks for Phase 4:
+
+1. Model Implementation
+   - Implement multiple ML models (e.g., Random Forest, SVM, XGBoost, Logistic Regression)
+   - Create modular, well-documented model code in the 'models' directory
+   - Ensure models can easily integrate with our preprocessing pipeline
+
+2. Experimental Framework
+   - Implement proper train/test splits
+   - Add cross-validation for model evaluation
+   - Create evaluation metrics (accuracy, precision, recall, F1, ROC-AUC)
+   - Implement proper hyperparameter tuning
+
+3. Performance Analysis
+   - Track and compare model runtimes
+   - Create comparison visualizations for model performance
+   - Analyze feature importance for different models
+   - Generate confusion matrices for classification results
+
+4. Documentation & Code Structure
+   - Update report with experimental results
+   - Document parameter choices and their effects
+   - Create visualization outputs in the results directory
+   - Ensure directory structure follows our established pattern
+
+5. Focus on Data Quality
+   - Ensure class imbalance is properly addressed in model training
+   - Test models on both 2015 and 2022 datasets
+   - Compare model performance across different datasets
