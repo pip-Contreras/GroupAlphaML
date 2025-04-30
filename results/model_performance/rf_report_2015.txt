@@ -1,0 +1,27 @@
+Random Forest Report (2015)
+
+0.0:
+  precision: 0.9723
+  recall: 0.7095
+  f1-score: 0.8204
+  support: 229787.0000
+1.0:
+  precision: 0.2238
+  recall: 0.8054
+  f1-score: 0.3502
+  support: 23893.0000
+accuracy:
+  0.7185
+macro avg:
+  precision: 0.5980
+  recall: 0.7575
+  f1-score: 0.5853
+  support: 253680.0000
+weighted avg:
+  precision: 0.9018
+  recall: 0.7185
+  f1-score: 0.7761
+  support: 253680.0000
+
+Best Params: {'bootstrap': False, 'class_weight': {0: 1, 1: 11}, 'max_depth': 25, 'max_features': 'sqrt', 'min_samples_leaf': 3, 'min_samples_split': 5, 'n_estimators': 200}
+Runtime (s): 51.40

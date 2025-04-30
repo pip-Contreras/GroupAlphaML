@@ -1,0 +1,27 @@
+Random Forest Report (2022)
+
+0.0:
+  precision: 0.9833
+  recall: 0.9227
+  f1-score: 0.9520
+  support: 420024.0000
+1.0:
+  precision: 0.3634
+  recall: 0.7385
+  f1-score: 0.4871
+  support: 25108.0000
+accuracy:
+  0.9123
+macro avg:
+  precision: 0.6734
+  recall: 0.8306
+  f1-score: 0.7196
+  support: 445132.0000
+weighted avg:
+  precision: 0.9484
+  recall: 0.9123
+  f1-score: 0.9258
+  support: 445132.0000
+
+Best Params: {'bootstrap': False, 'class_weight': {0: 1, 1: 11}, 'max_depth': 25, 'max_features': 'sqrt', 'min_samples_leaf': 3, 'min_samples_split': 5, 'n_estimators': 200}
+Runtime (s): 176.25

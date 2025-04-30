@@ -1,0 +1,13 @@
+Logistic Regression Report (2015)
+
+              precision    recall  f1-score   support
+
+         0.0     0.6669    0.7415    0.7022    229787
+         1.0     0.7089    0.6296    0.6669    229787
+
+    accuracy                         0.6855    459574
+   macro avg     0.6879    0.6855    0.6846    459574
+weighted avg     0.6879    0.6855    0.6846    459574
+
+Best Params: {'C': 0.01, 'class_weight': None}
+Runtime (s): 3.68

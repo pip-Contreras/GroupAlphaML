@@ -1,0 +1,14 @@
+Top Positive and Negative Correlations:
+
+WeightInKilograms <-> BMI: +0.851
+HeightInMeters <-> WeightInKilograms: +0.457
+PhysicalHealthDays <-> MentalHealthDays: +0.310
+PhysicalHealthDays <-> HadHeartAttack: +0.136
+PhysicalHealthDays <-> BMI: +0.106
+MentalHealthDays <-> BMI: +0.072
+MentalHealthDays <-> SleepHours: -0.125
+PhysicalHealthDays <-> SleepHours: -0.054
+SleepHours <-> WeightInKilograms: -0.050
+SleepHours <-> BMI: -0.047
+PhysicalHealthDays <-> HeightInMeters: -0.046
+MentalHealthDays <-> HeightInMeters: -0.046

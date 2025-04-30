@@ -1,0 +1,97 @@
+Training Dataset: Original dataset (80%)
+Class 0.0: Count = 11489, Ratio = 50.00%
+Class 1.0: Count = 11489, Ratio = 50.00%
+Training Dataset: Oversamples dataset (80%)
+Class 0.0: Count = 11489, Ratio = 90.58%
+Class 1.0: Count = 1195, Ratio = 9.42%
+================== XGBoost ======================
+accuracy: 0.8565743829773108 
+precision: 0.19251697154998187 
+f1: 0.17692582450291702 
+recall: 0.1636708080007049 
+confusion_matrix: [[202716  15582]
+ [ 18983   3715]] 
+runtime: 0.06910299999435665 
+
+================== XGBoost_Weighted ======================
+accuracy: 0.0 
+precision: 0.0 
+f1: 0.0 
+recall: 0.0 
+confusion_matrix: [] 
+runtime: 0.0 
+
+Training Dataset: Original dataset (80%)
+Class 0.0: Count = 11489, Ratio = 50.00%
+Class 1.0: Count = 11489, Ratio = 50.00%
+Training Dataset: Oversamples dataset (80%)
+Class 0.0: Count = 11489, Ratio = 90.58%
+Class 1.0: Count = 1195, Ratio = 9.42%
+================== XGBoost ======================
+accuracy: 0.8565743829773108 
+precision: 0.19251697154998187 
+f1: 0.17692582450291702 
+recall: 0.1636708080007049 
+confusion_matrix: [[202716  15582]
+ [ 18983   3715]] 
+runtime: 0.06647389999852749 
+
+================== XGBoost_Weighted ======================
+accuracy: 0.4591072050988398 
+precision: 0.11206244189314826 
+f1: 0.19261571622349816 
+recall: 0.6850383293682263 
+confusion_matrix: [[ 95094 123204]
+ [  7149  15549]] 
+runtime: 0.06607760000042617 
+
+Training Dataset: Original dataset (80%)
+Class 0.0: Count = 183830, Ratio = 90.58%
+Class 1.0: Count = 19114, Ratio = 9.42%
+Training Dataset: Oversampled dataset (80%)
+Class 0.0: Count = 183830, Ratio = 50.00%
+Class 1.0: Count = 183830, Ratio = 50.00%
+Training Dataset: Original dataset (80%)
+Class 0.0: Count = 11489, Ratio = 50.00%
+Class 1.0: Count = 11489, Ratio = 50.00%
+Training Dataset: Oversamples dataset (80%)
+Class 0.0: Count = 11489, Ratio = 90.58%
+Class 1.0: Count = 1195, Ratio = 9.42%
+================== XGBoost ======================
+accuracy: 0.8565743829773108 
+precision: 0.19251697154998187 
+f1: 0.17692582450291702 
+recall: 0.1636708080007049 
+confusion_matrix: [[202716  15582]
+ [ 18983   3715]] 
+runtime: 0.08603189999848837 
+
+================== XGBoost_Weighted ======================
+accuracy: 0.4591072050988398 
+precision: 0.11206244189314826 
+f1: 0.19261571622349816 
+recall: 0.6850383293682263 
+confusion_matrix: [[ 95094 123204]
+ [  7149  15549]] 
+runtime: 0.0658599000016693 
+
+Training Dataset: Original dataset (80%)
+Class 0.0: Count = 183830, Ratio = 90.58%
+Class 1.0: Count = 19114, Ratio = 9.42%
+Training Dataset: Oversampled dataset (80%)
+Class 0.0: Count = 183830, Ratio = 50.00%
+Class 1.0: Count = 183830, Ratio = 50.00%
+================== MLP ======================
+accuracy: 0.6717123935666982 
+precision: 0.17814752587935614 
+f1: 0.2829961256995265 
+recall: 0.6878007951454279 
+confusion_matrix: [[30793 15164]
+ [ 1492  3287]] 
+runtime: 69.37600589999784 
+Best Parameters:
+  activation: relu
+  alpha: 0.0001
+  hidden_layer_sizes: (100, 50)
+  learning_rate_init: 0.001
+

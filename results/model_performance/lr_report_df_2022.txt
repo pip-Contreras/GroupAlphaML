@@ -1,0 +1,13 @@
+Logistic Regression Report (df_2022)
+
+              precision    recall  f1-score   support
+
+         0.0     0.5732    0.8020    0.6686    420024
+         1.0     0.6705    0.4029    0.5033    420024
+
+    accuracy                         0.6024    840048
+   macro avg     0.6219    0.6024    0.5860    840048
+weighted avg     0.6219    0.6024    0.5860    840048
+
+Best Params: {'C': 10, 'class_weight': 'balanced'}
+Runtime (s): 6.38

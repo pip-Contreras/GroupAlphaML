@@ -1,0 +1,14 @@
+Top Positive and Negative Correlations:
+
+GenHlth <-> PhysHlth: +0.524
+PhysHlth <-> DiffWalk_1.0: +0.478
+GenHlth <-> DiffWalk_1.0: +0.457
+Education <-> Income: +0.449
+MentHlth <-> PhysHlth: +0.354
+Income <-> DiffWalk_0.0: +0.320
+PhysActivity_0.0 <-> PhysActivity_1.0: -1.000
+DiffWalk_0.0 <-> DiffWalk_1.0: -1.000
+PhysHlth <-> DiffWalk_0.0: -0.478
+GenHlth <-> DiffWalk_0.0: -0.457
+GenHlth <-> Income: -0.370
+Income <-> DiffWalk_1.0: -0.320
