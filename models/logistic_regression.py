@@ -1,8 +1,11 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[39]:
-
+'''
+Author: Group AlphaML
+April 17, 2025
+Description: Runs Logistic Regression model on the datasets.
+Dataset Sources:
+1. 2015 Dataset: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
+2. 2022 Dataset: https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
+'''
 
 import os
 import time
@@ -22,6 +25,7 @@ os.makedirs("results/model_performance", exist_ok=True)
 # Load Data
 
 def get_data():
+    """Loads two datasets into json divided into features and labels."""
     df_2015 = pd.read_csv("processed_data/df_2015.csv")
     X_2015 = df_2015.drop(columns=["HeartDiseaseorAttack"]).values #features
     y_2015 = df_2015["HeartDiseaseorAttack"].values #target
@@ -38,6 +42,15 @@ def get_data():
 # SMOTE to balance classes
 
 def oversample_data(X, y):
+    """Oversamples positive class using SMOTE.
+    
+    Parameters
+    ----------
+    X_train : array-like
+        Training feature set.
+    y_train : array-like
+        Training target labels.
+    """
     smote = SMOTE(random_state=1) #oversample strategy
     return smote.fit_resample(X, y)
 
@@ -45,6 +58,18 @@ def oversample_data(X, y):
 # Logistic Regression classifier
 
 def logistic_regression_classifier(X, y, dataset_name):
+    """
+    Train an estimator.
+
+    Parameters
+    ----------
+    dataset_name : str
+        Name of file where the results will be stored.
+    x : array-like
+        Training feature set.
+    y : array-like
+        Training target labels.
+    """
     print(f"\n Training Logistic Regression on {dataset_name}...\n")
     start = time.time() #track training time
 
@@ -139,7 +164,6 @@ for data in datasets:
     logistic_regression_classifier(X_res, y_res, data["name"])
 
 
-# In[ ]:
 
 
 

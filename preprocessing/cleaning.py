@@ -4,6 +4,20 @@ March 21, 2025
 Description: Cleans dataset from null values
 '''
 def cleaning(df):    
+    """
+    Cleans a DataFrame by imputing missing values and removing any remaining incomplete rows.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The input DataFrame containing missing values.
+
+    Returns
+    -------
+    pd.DataFrame
+        A cleaned DataFrame with missing values imputed or removed.
+    """
+
     # CHANGE: Create a copy to avoid modifying the original DataFram just in case we meention it elsewhere
     df = df.copy()
 

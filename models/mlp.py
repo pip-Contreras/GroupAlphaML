@@ -1,4 +1,13 @@
-from sklearn.experimental import enable_halving_search_cv  # Needed for HalvingGridSearchCV
+'''
+Author: Group AlphaML
+April 17, 2025
+Description: Runs Multilayer Perceptron model on the datasets.
+Dataset Sources:
+1. 2015 Dataset: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
+2. 2022 Dataset: https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
+'''
+
+from sklearn.experimental import enable_halving_search_cv 
 from sklearn.model_selection import HalvingGridSearchCV
 from sklearn.model_selection import train_test_split, StratifiedKFold
 from sklearn.neural_network import MLPClassifier
@@ -15,6 +24,7 @@ import numpy as np
 # Data
 # =============================================================================
 def get_data():
+    """Loads two datasets into json divided into features and labels."""
     df_2015 = pd.read_csv("processed_data/df_2015.csv")
     X_2015 = df_2015.drop(columns=["HeartDiseaseorAttack"]).values
     y_2015 = df_2015["HeartDiseaseorAttack"].values
@@ -43,11 +53,32 @@ def get_data():
 # Helper Functions
 # =============================================================================
 def oversample_class(X_train, y_train):
+    """Oversamples positive class using SMOTE.
+    
+    Parameters
+    ----------
+    X_train : array-like
+        Training feature set.
+    y_train : array-like
+        Training target labels.
+    """
     smote = SMOTE(random_state=1)
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     return X_train_resampled, y_train_resampled
 
 def save_class_ratios(y, file_name, title):
+    """
+    Compute class distribution ratios and save them to a file.
+
+    Parameters
+    ----------
+    y : array-like
+        Array of class labels for the dataset.
+    file_name : str
+        Name of the file where class ratios will be saved (without extension).
+    title : str
+        Title to be written in the file for clarity.
+    """
     print(file_name)
     print(title)
     classes, counts = np.unique(y, return_counts=True)
@@ -79,6 +110,7 @@ def plot_roc_curve(y_test, y_pred_proba, filename="roc_curve.png"):
 # Training Functions
 # =============================================================================
 def get_estimators(): # https://scikit-learn.org/stable/modules/generated/sklearn.neural_network.MLPClassifier.html
+    """Returns a JSON for different models for CVSearch."""
     estimators = [
         {
             "model": {
@@ -106,6 +138,26 @@ def get_estimators(): # https://scikit-learn.org/stable/modules/generated/sklear
 
 
 def set_metrics(file_name, estimator, X_train, X_test, y_train, y_test):
+    """
+    Train an estimator, evaluate performance metrics, and plot ROC curve.
+
+    Parameters
+    ----------
+    file_name : str
+        The base file name for saving the ROC curve plot.
+    estimator : dict
+        Dictionary containing:
+        - "model": A dictionary with "estimator" (a scikit-learn model) and "name" (model identifier).
+        - "params": Dictionary of hyperparameters.
+    X_train : array-like
+        Training feature set.
+    X_test : array-like
+        Test feature set.
+    y_train : array-like
+        Training target labels.
+    y_test : array-like
+        Test target labels.
+    """
     # Train estimator
     start_time = time.perf_counter()   
     estimator["model"]["estimator"].fit(X_train, y_train)
@@ -127,6 +179,27 @@ def set_metrics(file_name, estimator, X_train, X_test, y_train, y_test):
 
 
 def evaluate_estimators(file_name, estimators, X_train, X_test, y_train, y_test):
+    """
+    Perform hyperparameter tuning and evaluation for multiple configurations 
+    of MLP using stratified k-fold cross-validation.
+
+    Parameters
+    ----------
+    file_name : str
+        The name of the file where evaluation metrics will be stored.
+    estimators : list
+        A list of dictionaries, each containing:
+        - "model": A dictionary with the key "estimator" (a scikit-learn model).
+        - "params": Dictionary of hyperparameters for grid search.
+    X_train : array-like
+        Training feature set.
+    X_test : array-like
+        Test feature set.
+    y_train : array-like
+        Training target labels.
+    y_test : array-like
+        Test target labels.
+    """
     # Stratified k-fold cross-validation is good for unbalanced datasets
     n_splits = 5  # 5 is a good balance for medium size datasets.
     stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
@@ -156,6 +229,15 @@ def evaluate_estimators(file_name, estimators, X_train, X_test, y_train, y_test)
 
 
 def main():
+    """
+    Train and evaluate multiple estimators on different datasets.
+
+    This function:
+    - Splits datasets into training and test sets using stratified sampling.
+    - Applies oversampling to handle class imbalance.
+    - Evaluates models using both original and oversampled datasets.
+    - Saves class distribution ratios and model performance metrics to files.
+    """
     for dataset in get_data():
         # splitting datasets
         X_train, X_test, y_train, y_test = train_test_split(
@@ -197,5 +279,6 @@ def main():
 
 
 if __name__ == "__main__":
+    """Script entry point for standalone run."""
     main()
 

@@ -18,14 +18,36 @@ from models.XGB_MLP import classify
 from models.logistic_regression import logistic_regression_classifier
 import models.mlp as mlp
 
-
-
 def save_to_csv(dataset, filename):
+    """
+    Saves a dataset to a CSV file.
+
+    Parameters
+    ----------
+    dataset : pd.DataFrame
+        The DataFrame containing data to be saved.
+    filename : str
+        The path and name of the file where the dataset will be saved.
+    """
+
     dataset.to_csv(filename, index=False) 
     print(f"Dataset saved as {filename}")
 
 
 def main():
+    """
+    Executes the full pipeline, including data preprocessing, classification, and saving results.
+
+    Workflow:
+    - Loads raw datasets.
+    - Cleans missing values.
+    - Encodes categorical features.
+    - Normalizes numerical data.
+    - Performs correlation analysis.
+    - Saves processed datasets.
+    - Runs multiple classification models (Random Forest, Logistic Regression, MLP).
+    """
+
     classify() # calls the XGB_MLP classifier
     # loading files
     print("Loading raw datasets...")

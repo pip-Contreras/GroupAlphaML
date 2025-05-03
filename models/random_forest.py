@@ -1,3 +1,12 @@
+'''
+Author: Group AlphaML
+April 17, 2025
+Description: Runs Random Forest model on the datasets.
+Dataset Sources:
+1. 2015 Dataset: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
+2. 2022 Dataset: https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
+'''
+
 import time
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -8,6 +17,24 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_curve, 
 
 # Defining random forest classifier function
 def random_forest_classifier(X, y, dataset_name):
+    """
+    Train a Random Forest classifier with hyperparameter tuning and evaluate its performance.
+
+    Parameters
+    ----------
+    X : array-like
+        Feature matrix for training.
+    y : array-like
+        Target labels for training.
+    dataset_name : str
+        Name of the dataset, used for saving results.
+
+    Returns
+    -------
+    rf_best_model : RandomForestClassifier
+        The best estimator found by GridSearchCV.
+    """
+
     start = time.time()
 
     rf_skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42) # Random state for reproducibility

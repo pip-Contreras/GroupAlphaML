@@ -1,7 +1,7 @@
 '''
 Author: Group AlphaML
 April 17, 2025
-Description: Classifiers for heart attack datasets.
+Description: Runs XGB for heart attack datasets.
 Dataset Sources:
 1. 2015 Dataset: https://www.kaggle.com/datasets/alexteboul/heart-disease-health-indicators-dataset
 2. 2022 Dataset: https://www.kaggle.com/datasets/kamilpytlak/personal-key-indicators-of-heart-disease
@@ -16,12 +16,14 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, roc_auc_score
 import time
 from imblearn.over_sampling import SMOTE
+import numpy as np
 
 
 # =============================================================================
 # Data
 # =============================================================================
 def get_data():
+    """Loads two datasets into json divided into features and labels."""
     df_2015 = pd.read_csv("processed_data/df_2015.csv")
     X_2015 = df_2015.drop(columns=["HeartDiseaseorAttack"]).values
     y_2015 = df_2015["HeartDiseaseorAttack"].values
@@ -51,11 +53,33 @@ def get_data():
 # Helper Functions
 # =============================================================================
 def oversample_class(X_train, y_train):
+    """Oversamples positive class using SMOTE.
+    
+    Parameters
+    ----------
+    X_train : array-like
+        Training feature set.
+    y_train : array-like
+        Training target labels.
+    """
     smote = SMOTE(random_state = 1)
     X_train_resampled, y_train_resampled = smote.fit_resample(X_train, y_train)
     return X_train_resampled, y_train_resampled
 
 def save_class_ratios(y, file_name, title):
+    """
+    Compute class distribution ratios and save them to a file.
+
+    Parameters
+    ----------
+    y : array-like
+        Array of class labels for the dataset.
+    file_name : str
+        Name of the file where class ratios will be saved (without extension).
+    title : str
+        Title to be written in the file for clarity.
+    """
+
     print(file_name)
     print(title)
     # Get unique class labels and their counts
@@ -71,6 +95,19 @@ def save_class_ratios(y, file_name, title):
         print("\n")
 
 def plot_roc_curve(y_test, y_pred_proba, filename="roc_curve.png"):
+    """
+    Generate and save the Receiver Operating Characteristic (ROC) curve.
+
+    Parameters
+    ----------
+    y_test : array-like
+        True labels for the test set.
+    y_pred_proba : array-like
+        Predicted probabilities for the positive class.
+    filename : str, optional
+        Name of the file where the ROC curve image will be saved (default: "roc_curve.png").
+    """
+
     fpr, tpr, _ = roc_curve(y_test, y_pred_proba)
     auc_score = roc_auc_score(y_test, y_pred_proba)
 
@@ -92,6 +129,7 @@ def plot_roc_curve(y_test, y_pred_proba, filename="roc_curve.png"):
 # Training Functions
 # =============================================================================
 def get_estimators():
+    """Returns a JSON for different models for CVSearch."""
     estimators = [
         {
             "model":{
@@ -138,6 +176,27 @@ def get_estimators():
 
 
 def set_metrics(file_name, estimator, X_train, X_test, y_train, y_test):
+    """
+    Train an estimator, evaluate performance metrics, and plot ROC curve.
+
+    Parameters
+    ----------
+    file_name : str
+        The base file name for saving the ROC curve plot.
+    estimator : dict
+        Dictionary containing:
+        - "model": A dictionary with "estimator" (a scikit-learn model) and "name" (model identifier).
+        - "params": Dictionary of hyperparameters.
+    X_train : array-like
+        Training feature set.
+    X_test : array-like
+        Test feature set.
+    y_train : array-like
+        Training target labels.
+    y_test : array-like
+        Test target labels.
+    """
+
     # Train estimator
     start_time = time.perf_counter()   
     estimator["model"]["estimator"].fit(X_train, y_train)
@@ -159,6 +218,28 @@ def set_metrics(file_name, estimator, X_train, X_test, y_train, y_test):
 
 
 def evaluate_estimators(file_name, estimators, X_train, X_test, y_train, y_test):
+    """
+    Perform hyperparameter tuning and evaluation for multiple configurations 
+    of XGBoost using stratified k-fold cross-validation.
+
+    Parameters
+    ----------
+    file_name : str
+        The name of the file where evaluation metrics will be stored.
+    estimators : list
+        A list of dictionaries, each containing:
+        - "model": A dictionary with the key "estimator" (a scikit-learn model).
+        - "params": Dictionary of hyperparameters for grid search.
+    X_train : array-like
+        Training feature set.
+    X_test : array-like
+        Test feature set.
+    y_train : array-like
+        Training target labels.
+    y_test : array-like
+        Test target labels.
+    """
+
     # Stratified k-fold cross-validation is good for unbalanced datasets
     n_splits = 5 # 5 is a good balance for medium size datasets.
     stratified_kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=1)
@@ -183,8 +264,17 @@ def evaluate_estimators(file_name, estimators, X_train, X_test, y_train, y_test)
         print("Error optimizing model: ", e)
 
 
-import numpy as np
 def classify():
+    """
+    Train and evaluate multiple estimators on different datasets.
+
+    This function:
+    - Splits datasets into training and test sets using stratified sampling.
+    - Applies oversampling to handle class imbalance.
+    - Evaluates models using both original and oversampled datasets.
+    - Saves class distribution ratios and model performance metrics to files.
+    """
+
     for dataset in get_data():
         # splitting datasets
         X_train, X_test, y_train, y_test = train_test_split(dataset["X"], dataset["y"], test_size=0.95, random_state=1, stratify=dataset["y"])

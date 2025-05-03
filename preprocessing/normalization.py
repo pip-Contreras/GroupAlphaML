@@ -9,10 +9,32 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 def plot(df):
+    """
+    Generates pairwise scatter plots for all features in the dataset.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataset containing numerical and categorical features.
+    """
     sns.pairplot(df)
 
 
 def normalization(df):
+    """
+    Normalizes numeric features using Min-Max scaling while preserving non-numeric columns.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataset containing numerical and categorical features.
+
+    Returns
+    -------
+    pd.DataFrame
+        A DataFrame with normalized numeric features and unchanged categorical features.
+    """
+
     # CHANGE: Keep only numeric columns for scaling
     numeric_cols = df.select_dtypes(include=['float64', 'int64', 'int32', 'float32']).columns
     df_numeric = df[numeric_cols]

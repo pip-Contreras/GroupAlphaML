@@ -10,15 +10,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
 
-# Filters correlation matrix to only keep relationships within defined thresholds
 def filter_correlation_matrix(corr_matrix, threshold=0.15):
+    """
+    Filters a correlation matrix by removing rows and columns where correlations are below a threshold.
+
+    Parameters
+    ----------
+    corr_matrix : pd.DataFrame
+        A square correlation matrix with numerical values.
+    threshold : float, optional
+        The minimum absolute correlation value required to retain a row/column (default is 0.15).
+
+    Returns
+    -------
+    pd.DataFrame
+        A filtered correlation matrix with only highly correlated features.
+    """
+
+
     mask = (corr_matrix.abs() > threshold) & (corr_matrix != 1.0)
     rows_to_keep = mask.any(axis=1)
     cols_to_keep = mask.any(axis=0)
     return corr_matrix.loc[rows_to_keep, cols_to_keep]
 
-# Plots and saves correlation heatmaps
 def plot_and_save_heatmap(corr_matrix, title, filename):
+    """
+    Generates and saves a heatmap from a correlation matrix.
+
+    Parameters
+    ----------
+    corr_matrix : pd.DataFrame
+        A square correlation matrix with numerical values.
+    title : str
+        The title for the heatmap.
+    filename : str
+        The name of the file where the heatmap will be saved.
+    """
+
     plt.figure(figsize=(18, 14))
     sns.heatmap(corr_matrix, annot=True, cmap="coolwarm", fmt=".2f", square=True,
                 annot_kws={"size": 10}, cbar_kws={"shrink": 0.8})
@@ -30,8 +58,22 @@ def plot_and_save_heatmap(corr_matrix, title, filename):
     plt.savefig(f"results/eda/{filename}", dpi=300)
     plt.close()
 
-# Plots strongest positive and negative correlations in an easy to interpret style
 def plot_extreme_correlations(corr_matrix, title, filename, top_n=6):
+    """
+    Generates and saves a map showing most relevant correlations.
+
+    Parameters
+    ----------
+    corr_matrix : pd.DataFrame
+        A square correlation matrix with numerical values.
+    title : str
+        The title for the heatmap.
+    filename : str
+        The name of the file where the heatmap will be saved.
+    top_n : str
+        The number of features to mark
+    """
+
     corr_pairs = corr_matrix.unstack().reset_index()
     corr_pairs.columns = ['Feature 1', 'Feature 2', 'Correlation']
     corr_pairs = corr_pairs[corr_pairs['Feature 1'] != corr_pairs['Feature 2']]
@@ -69,16 +111,38 @@ def plot_extreme_correlations(corr_matrix, title, filename, top_n=6):
 
     return top_corrs
 
-# Saves correlation summary to .txt file
 def save_correlation_summary(corr_df, filename):
-    # CHANGE: Updated save path
+    """
+    Saves a correlation summary to a text file, listing the top positive and negative correlations.
+
+    Parameters
+    ----------
+    corr_df : pd.DataFrame
+        A DataFrame containing correlation data with columns:
+        - "Feature 1": The first feature in the correlation pair.
+        - "Feature 2": The second feature in the correlation pair.
+        - "Correlation": The correlation coefficient.
+    filename : str
+        The name of the file where the correlation summary will be saved (without extension).
+    """
     with open(f"results/eda/{filename}.txt", "w", encoding="utf-8") as f:
         f.write("Top Positive and Negative Correlations:\n\n")
         for _, row in corr_df.iterrows():
             f.write(f"{row['Feature 1']} <-> {row['Feature 2']}: {row['Correlation']:+.3f}\n")
 
-# CHANGE: Added function for class imbalance analysis (per professor's feedback on EDA)
 def analyze_class_imbalance(df, target_col, year):
+    """
+    Visualizes and saves a bar plot of class distribution to assess imbalance in the dataset.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataset containing the target variable.
+    target_col : str
+        The column name representing class labels.
+    year : int
+        The year associated with the dataset, used for saving the plot.
+    """
     plt.figure(figsize=(10, 6))
     class_counts = df[target_col].value_counts()
     ax = sns.barplot(x=class_counts.index, y=class_counts.values)
@@ -90,8 +154,18 @@ def analyze_class_imbalance(df, target_col, year):
     plt.savefig(f"results/eda/class_imbalance_{year}.png", dpi=300)
     plt.close()
 
-# CHANGE: Added function for feature distribution analysis (per professor's feedback on EDA)
 def analyze_feature_distributions(df, year):
+    """
+    Generates and saves histograms for numerical feature distributions.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        The dataset containing numerical features.
+    year : int
+        The year associated with the dataset, used for saving the plot.
+    """
+
     numeric_cols = df.select_dtypes(include=['float64', 'int64']).columns[:6]  # Limit to avoid too many plots
     
     plt.figure(figsize=(15, 10))
